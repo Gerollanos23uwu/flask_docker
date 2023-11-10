@@ -1,0 +1,41 @@
+body {
+    background-image: url("{{ url_for('static', filename='img/tierra2.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 600px;
+    }
+  
+    .ti-app{
+      text-align: center;
+      color: aliceblue;
+    }
+  
+    .card-container {
+     display: flex;
+    justify-content: center; /* Centra horizontalmente las tarjetas */
+    gap: 600px; /* Define el espacio entre las tarjetas */
+    padding-top: 30px;
+    border: 2px, solid black;
+    }
+      /* Agrega un margen derecho a todas las tarjetas excepto la última */
+      .card {
+              margin-right: 20px;
+          }
+  
+          /* Elimina el margen derecho de la última tarjeta */
+          .card:last-child {
+              margin-right: 0;
+          }
+    .tarjeta{
+      background-color: rgb(156, 149, 138);
+      background-image: url("{{ url_for('static', filename='img/five.jpg') }}");
+    }
+    
+  .img{
+    border-radius: 26px;
+  }
+  
+  .list .li {
+      padding: 50px;
+    }

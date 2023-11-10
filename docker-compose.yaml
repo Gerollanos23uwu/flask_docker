@@ -1,0 +1,37 @@
+version: "3.8"
+# Lista de servicios
+services:
+  mysql_db:
+    image: mysql:5.7  # Usa la imagen oficial de MySQL 5.7 de Docker Hub
+    env_file:
+        - .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}  # Crea una base de datos llamada 'mydatabase'
+      MYSQL_USER: ${MYSQL_USER}  # Crea un usuario MySQL 'myuser'
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  # Establece la contraseña para 'myuser'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # Establece la contraseña de root para MySQL
+    ports:
+      - "3307:3306"  # Mapea el puerto 3307 del host al puerto 3306 del contenedor para MySQL
+    restart: always  # Reinicia el contenedor de MySQL si se detiene o falla
+    container_name: ${MYSQL_CONTAINER_NAME}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d/
+
+  flask_app: # Servicio app
+    build:   # Lista de parámetros
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5005:5005" # Puerto expuesto por el contenedor : Puerto del host en el que escuchamos.
+    # restart: always # En caso de error, reintenta.
+    volumes:
+      - .:/sql_alchemy
+    env_file:
+      - .env
+    depends_on:
+      - mysql_db
+    container_name: flask_app_mysql
+
+volumes:
+  db_data: # Volumen para datos de la base de datos
